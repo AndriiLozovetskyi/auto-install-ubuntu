@@ -26,6 +26,10 @@ jobs:
           sed -i 's/{USERNAME}/${{ vars.USERNAME }}/g' config.ini
           sed -i 's/{PASSWORD}/${{ secrets.PASSWORD }}/g' config.ini
 
+      - name: Check condif
+        run: |
+          echo config.ini
+
       - name: Build iso with auto-isntall config
         run: |
           bash build.sh
