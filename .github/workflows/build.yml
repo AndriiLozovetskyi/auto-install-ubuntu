@@ -43,7 +43,7 @@ jobs:
           sed -i 's/{USERNAME}/${{ vars.USERNAME }}/g' config.ini
           sed -i 's/{PASSWORD}/${{ secrets.PASSWORD }}/g' config.ini
 
-      - name: Check cond
+      - name: Check config
         run: |
           cat config.ini
 

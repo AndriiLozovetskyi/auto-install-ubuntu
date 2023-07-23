@@ -42,7 +42,8 @@ menuentry 'Autoinstall Ubuntu Server' {
 EOF
 )
 
-echo "$GRUB_CONFIG" | sed '1s/^/ /' "$DIR/boot/grub/grub.cfg" | tee -a "$DIR/boot/grub/grub.cfg"
+sed -i '7r /dev/stdin' "$DIR/boot/grub/grub.cfg" <<< "$GRUB_CONFIG"
+
 
 echo 'ZIP ISO...'
 
