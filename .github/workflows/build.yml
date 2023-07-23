@@ -16,9 +16,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+      - name: Restore cached Primes
+        id: cache-iso-restore
+        uses: actions/cache/restore@v3
+        with:
+          path: |
+            ubuntu.iso
+          key: ${{ vars.URL_SOURCE_UBUNTU }}
+
       - name: Download iso ubuntu
         run: |
           curl -fsSL "${{ vars.URL_SOURCE_UBUNTU }}" -o ubuntu.iso
+
+      - name: Save Primes
+        id: cache-primes-save
+        uses: actions/cache/save@v3
+        with:
+          path: |
+            ubuntu.iso
+          key: ${{ steps.cache-iso-restore.outputs.cache-primary-key }}
 
       - name: Setting config for github secret
         run: |
