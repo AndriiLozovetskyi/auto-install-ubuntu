@@ -1,0 +1,29 @@
+#cloud-config
+autoinstall:
+  version: 1
+  identity:
+    hostname: HOSTNAME
+    password: PASSWORD
+    username: USERNAME
+  ssh:
+    allow-pw: true
+    install-server: yes
+  locale: en_US.UTF-8
+  storage:
+    layout:
+      name: lvm
+      match:
+        size: largest
+  user-data:
+    disable_root: false
+  late-commands:
+    - sed -ie 's/GRUB_TIMEOUT=.\*/GRUB_TIMEOUT=30/' /target/etc/default/grub
+    # Disable swap
+    - sed -i '/swap/s/^/# /' /etc/fstab
+    - swapoff -a
+    - rm -rf /swap.img
+    # fix for storage
+    - curtin in-target --target=/target -- lvextend -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
+    - curtin in-target --target=/target -- resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv
+    # shut-down the host to avoid an infinite installer loop
+    - shutdown -h now

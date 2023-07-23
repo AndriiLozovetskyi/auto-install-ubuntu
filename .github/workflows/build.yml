@@ -1,0 +1,39 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Download iso ubuntu
+        run: |
+          curl -fsSL "${{ vars.URL_SOURCE_UBUNTU }}" -o ubuntu.iso
+
+      - name: Setting config for github secret
+        run: |
+          sed -i 's/{HOSTNAME}/${{ vars.HOSTNAME }}/g' config.ini
+          sed -i 's/{USERNAME}/${{ vars.USERNAME }}/g' config.ini
+          sed -i 's/{PASSWORD}/${{ secrets.PASSWORD }}/g' config.ini
+
+      - name: Build iso with auto-isntall config
+        run: |
+          bash build.sh
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ubuntu-autoinstall.iso
+          path: ubuntu-autoinstall.iso
+          
+       
