@@ -28,7 +28,7 @@ jobs:
 
       - name: Check condif
         run: |
-          echo config.ini
+          cat config.ini
 
       - name: Build iso with auto-isntall config
         run: |
