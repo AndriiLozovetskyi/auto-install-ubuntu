@@ -31,6 +31,7 @@ jobs:
           curl -fsSL "${{ vars.URL_SOURCE_UBUNTU }}" -o ubuntu.iso
 
       - name: Save Primes
+        if: steps.cache-iso-restore.outputs.cache-hit != 'true'
         id: cache-primes-save
         uses: actions/cache/save@v3
         with:
