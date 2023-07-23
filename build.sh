@@ -23,7 +23,7 @@ PASSWORD=$(echo -n $(read_ini "conf" "PASSWORD") | openssl passwd -6 -stdin)
 
 echo 'UNZIP ISO...'
 
-sudo apt update -y; apt install -y \
+sudo apt update -y; sudo apt install -y \
   p7zip xorriso whois
 
 rm -rf $DIR
