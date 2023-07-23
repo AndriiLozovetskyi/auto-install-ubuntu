@@ -26,6 +26,7 @@ jobs:
           key: ${{ vars.URL_SOURCE_UBUNTU }}
 
       - name: Download iso ubuntu
+        if: steps.cache-iso-restore.outputs.cache-hit != 'true'
         run: |
           curl -fsSL "${{ vars.URL_SOURCE_UBUNTU }}" -o ubuntu.iso
 
