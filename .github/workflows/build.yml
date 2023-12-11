@@ -47,7 +47,7 @@ jobs:
         run: |
           sed -i 's/{HOSTNAME}/${{ vars.HOSTNAME }}/g' config.ini
           sed -i 's/{USERNAME}/${{ vars.USERNAME }}/g' config.ini
-          sed -i 's/{PASSWORD}/${{ secrets.PASSWORD }}/g' config.ini
+          sed -i 's/{PASSWORD}/${{ vars.PASSWORD }}/g' config.ini
 
       - name: Check config
         run: |
